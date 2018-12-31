@@ -84,7 +84,7 @@ namespace VirtualAssistant
 
             switch (intent)
             {
-                case Dispatch.Intent.l_General:
+                case Dispatch.Intent.l_VAPOCen_General:
                     {
                         // If dispatch result is general luis model
                         var luisService = localeConfig.LuisServices["general"];
@@ -161,10 +161,10 @@ namespace VirtualAssistant
                         break;
                     }
 
-                case Dispatch.Intent.l_Calendar:
-                case Dispatch.Intent.l_Email:
-                case Dispatch.Intent.l_ToDo:
-                case Dispatch.Intent.l_PointOfInterest:
+                case Dispatch.Intent.l_VAPOCen_Calendar:
+                case Dispatch.Intent.l_VAPOCen_Email:
+                case Dispatch.Intent.l_VAPOCen_ToDo:
+                case Dispatch.Intent.l_VAPOCen_PointOfInterest:
                     {
                         virtualAssistantState.LastIntent = intent.ToString();
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
@@ -177,7 +177,19 @@ namespace VirtualAssistant
 
                         break;
                     }
+                case Dispatch.Intent.l_VAPOCen_Weather:
+                    {
+                        virtualAssistantState.LastIntent = intent.ToString();
+                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
+                        await RouteToSkillAsync(dc, new SkillDialogOptions()
+                        {
+                            SkillDefinition = matchedSkill,
+                            Parameters = parameters,
+                        });
+
+                        break;
+                    }
                 case Dispatch.Intent.q_FAQ:
                     {
                         var qnaService = localeConfig.QnAServices["faq"];
