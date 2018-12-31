@@ -4,7 +4,7 @@
 Installation and configuration information.
 
 
-wd_alpha@hotmail.com£¬ÃÜÂëÎª23228007wd
+
 
 
 www.luis.ai 
