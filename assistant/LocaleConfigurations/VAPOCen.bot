@@ -1,0 +1,85 @@
+{
+    "name": "VAPOCen",
+    "description": "",
+    "services": [
+        {
+            "type": "luis",
+            "name": "VAPOCen_General",
+            "appId": "54354708-3417-45f5-9ddd-29c4d767a851",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "0.1",
+            "region": "westus",
+            "id": "general"
+        },
+        {
+            "type": "luis",
+            "name": "VAPOCen_Calendar",
+            "appId": "e557a60a-6bcb-40f5-9ae5-3b2050ef5a63",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "0.1",
+            "region": "westus",
+            "id": "calendar"
+        },
+        {
+            "type": "luis",
+            "name": "VAPOCen_Email",
+            "appId": "6ceee347-aab8-41d9-8c59-3f386997835f",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "0.1",
+            "region": "westus",
+            "id": "email"
+        },
+        {
+            "type": "luis",
+            "name": "VAPOCen_ToDo",
+            "appId": "d9df192d-1334-4e8e-a76f-a7a4d0078ae8",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "0.1",
+            "region": "westus",
+            "id": "todo"
+        },
+        {
+            "type": "luis",
+            "name": "VAPOCen_PointOfInterest",
+            "appId": "24524b14-d11c-466d-8f97-3cd533182737",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "0.1",
+            "region": "westus",
+            "id": "pointofinterest"
+        },
+        {
+            "type": "qna",
+            "name": "FAQ",
+            "id": "faq",
+            "kbId": "792d85dd-a6c7-496a-b444-43b71bbf1f40",
+            "subscriptionKey": "163518aac63d4ca88ff0c4b65a239538",
+            "endpointKey": "98aa5a71-2ccf-4fc4-a5a8-4b1d93f97008",
+            "hostname": "https://vapocen-qnahost.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "dispatch",
+            "serviceIds": [
+                "general",
+                "calendar",
+                "email",
+                "todo",
+                "pointofinterest",
+                "faq"
+            ],
+            "name": "VAPOCen_Dispatch",
+            "appId": "5cd50c33-62f1-4aa4-a353-0cd21b3399a0",
+            "authoringKey": "c236b1ae109b45ca859daad4b44b1387",
+            "subscriptionKey": "c236b1ae109b45ca859daad4b44b1387",
+            "version": "Dispatch",
+            "region": "westus",
+            "id": "dispatch"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
