@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using weather.Dialogs.Main.Resources;
-using weather.Dialogs.Shared.Resources;
+using weatherskill.Dialogs.Main.Resources;
+using weatherskill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -16,20 +16,20 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace weather
+namespace weatherskill
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
-        private SkillConfiguration _services;
+        private ISkillConfiguration _services;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
-        private IStatePropertyAccessor<weatherState> _stateAccessor;
+        private IStatePropertyAccessor<weatherskillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private weatherResponseBuilder _responseBuilder = new weatherResponseBuilder();
+        private weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
 
-        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
+        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
@@ -39,7 +39,7 @@ namespace weather
             _serviceManager = serviceManager;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<weatherState>(nameof(weatherState));
+            _stateAccessor = _conversationState.CreateProperty<weatherskillState>(nameof(weatherskillState));
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             RegisterDialogs();
@@ -50,16 +50,16 @@ namespace weather
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherMainResponses.WelcomeMessage));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillMainResponses.WelcomeMessage));
             }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherState());
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
 
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("skill", out var luisService);
+            _services.LuisServices.TryGetValue("weather", out var luisService);
 
             if (luisService == null)
             {
@@ -67,10 +67,10 @@ namespace weather
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Skill>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<weather>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                var skillOptions = new weatherDialogOptions
+                var skillOptions = new weatherskillDialogOptions
                 {
                     SkillMode = _skillMode,
                 };
@@ -78,9 +78,9 @@ namespace weather
                 // switch on general intents
                 switch (intent)
                 {
-                    case Skill.Intent.None:
+                    case weather.Intent.None:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherSharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
                                 await CompleteAsync(dc);
@@ -91,7 +91,7 @@ namespace weather
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherMainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillMainResponses.FeatureNotAvailable));
 
                             if (_skillMode)
                             {
@@ -115,7 +115,7 @@ namespace weather
             }
             else
             {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherSharedResponses.ActionEnded));
+                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillSharedResponses.ActionEnded));
             }
 
             // End active dialog
@@ -128,7 +128,7 @@ namespace weather
             {
                 case Events.SkillBeginEvent:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherState());
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
 
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
@@ -163,8 +163,8 @@ namespace weather
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["skill"].RecognizeAsync<Skill>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherState());
+                var skillLuisResult = await _services.LuisServices["weather"].RecognizeAsync<weather>(dc.Context, cancellationToken);
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
                 state.LuisResult = skillLuisResult;
 
                 // check luis intent
@@ -214,7 +214,7 @@ namespace weather
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -235,7 +235,7 @@ namespace weather
 
             // Sign out user
             await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
         }

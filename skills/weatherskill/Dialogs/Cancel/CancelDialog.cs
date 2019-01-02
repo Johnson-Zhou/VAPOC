@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace weather
+namespace weatherskill
 {
     public class CancelDialog : ComponentDialog
     {

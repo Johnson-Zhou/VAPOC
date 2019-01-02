@@ -1,4 +1,4 @@
-﻿namespace weather
+﻿namespace weatherskill
 {
     public interface IServiceManager
     {

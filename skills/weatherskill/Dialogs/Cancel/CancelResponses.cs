@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using weather.Dialogs.Cancel.Resources;
+using weatherskill.Dialogs.Cancel.Resources;
 using Microsoft.Bot.Builder.TemplateManager;
 
-namespace weather
+namespace weatherskill
 {
     public class CancelResponses : TemplateManager
     {

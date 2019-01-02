@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace weather
+namespace weatherskill
 {
     public class Program
     {

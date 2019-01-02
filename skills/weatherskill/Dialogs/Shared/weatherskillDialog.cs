@@ -1,4 +1,4 @@
-﻿using weather.Dialogs.Shared.Resources;
+﻿using weatherskill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,24 +13,24 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace weather
+namespace weatherskill
 {
-    public class weatherDialog : ComponentDialog
+    public class weatherskillDialog : ComponentDialog
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
         // Fields
-        protected SkillConfiguration _services;
-        protected IStatePropertyAccessor<weatherState> _accessor;
+        protected ISkillConfiguration _services;
+        protected IStatePropertyAccessor<weatherskillState> _accessor;
         protected IServiceManager _serviceManager;
-        protected weatherResponseBuilder _responseBuilder = new weatherResponseBuilder();
+        protected weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
 
-        public weatherDialog(
+        public weatherskillDialog(
             string dialogId,
-            SkillConfiguration services,
-            IStatePropertyAccessor<weatherState> accessor,
+            ISkillConfiguration services,
+            IStatePropertyAccessor<weatherskillState> accessor,
             IServiceManager serviceManager)
             : base(dialogId)
         {
@@ -69,7 +69,7 @@ namespace weather
         {
             try
             {
-                var skillOptions = (weatherDialogOptions)sc.Options;
+                var skillOptions = (weatherskillDialogOptions)sc.Options;
 
                 // If in Skill mode we ask the calling Bot for the token
                 if (skillOptions != null && skillOptions.SkillMode)
@@ -103,7 +103,7 @@ namespace weather
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
-                var skillOptions = (weatherDialogOptions)sc.Options;
+                var skillOptions = (weatherskillDialogOptions)sc.Options;
                 TokenResponse tokenResponse;
                 if (skillOptions != null && skillOptions.SkillMode)
                 {
@@ -157,7 +157,7 @@ namespace weather
 
 
         // Helpers
-        public async Task DigestLuisResult(DialogContext dc, Skill luisResult)
+        public async Task DigestLuisResult(DialogContext dc, weather luisResult)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace weather
         // This method is called by any waterfall step that throws an exception to ensure consistency
         public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(weatherSharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(weatherskillSharedResponses.ErrorMessage));
             await sc.CancelAllDialogsAsync();
             return ex;
         }

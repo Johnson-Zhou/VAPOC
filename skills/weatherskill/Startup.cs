@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using weather.Dialogs.Shared.Resources;
+using weatherskill.Dialogs.Shared.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -19,7 +19,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace weather
+namespace weatherskill
 {
     public class Startup
     {
@@ -43,13 +43,15 @@ namespace weather
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\weather.bot", botFileSecret);
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\weatherskill.bot", botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
-            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            var connectedServices = new SkillConfiguration(botConfig, parameters, configuration);
+            var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
+            var supportedProviders = Configuration.GetSection("supportedProviders")?.Get<string[]>();
+            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
+            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
             services.AddSingleton(sp => connectedServices);
 
             // Initialize Bot State
@@ -75,7 +77,7 @@ namespace weather
             services.AddSingleton<IServiceManager, ServiceManager>();
 
             // Add the bot with options
-            services.AddBot<weather>(options =>
+            services.AddBot<weatherskill>(options =>
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
@@ -90,13 +92,15 @@ namespace weather
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
                 var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
-                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    await context.SendActivityAsync(context.Activity.CreateReply(weatherSharedResponses.ErrorMessage));
+                    await context.SendActivityAsync(context.Activity.CreateReply(weatherskillSharedResponses.ErrorMessage));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
                     connectedServices.TelemetryClient.TrackException(exception);
                 };

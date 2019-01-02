@@ -5,15 +5,15 @@ using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 
-namespace weather
+namespace weatherskill
 {
-    public class weatherState
+    public class weatherskillState
     {
-        public weatherState()
+        public weatherskillState()
         {
 
         }
 
-        public Skill LuisResult { get; set; }
+        public weather LuisResult { get; set; }
     }
 }

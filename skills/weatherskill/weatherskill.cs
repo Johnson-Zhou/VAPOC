@@ -10,12 +10,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 
-namespace weather
+namespace weatherskill
 {
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
-    public class weather : IBot
+    public class weatherskill : IBot
     {
         private bool _skillMode;
         private readonly SkillConfiguration _services;
@@ -24,7 +24,7 @@ namespace weather
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
 
-        public weather(SkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, bool skillMode = false)
+        public weatherskill(SkillConfiguration services, ConversationState conversationState, UserState userState, ServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));

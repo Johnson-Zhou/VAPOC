@@ -10,28 +10,32 @@ using System.Runtime.CompilerServices;
 using Microsoft.Bot.Solutions.Dialogs;
 using Newtonsoft.Json;
 
-namespace weather.Dialogs.Main.Resources
+namespace weatherskill.Dialogs.Shared.Resources
 {
     /// <summary>
     /// Calendar bot responses class.
     /// </summary>
-    public static class weatherMainResponses
+    public static class weatherskillSharedResponses
     {
-        private const string JsonFileName = "weatherMainResponses.*.json";
+        private const string JsonFileName = "weatherskillSharedResponses.*.json";
 
         private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
 
         // Generated code:
         // This code runs in the text json:
-        public static BotResponse WelcomeMessage => GetBotResponse();
+        public static BotResponse DidntUnderstandMessage => GetBotResponse();
 
-        public static BotResponse HelpMessage => GetBotResponse();
+        public static BotResponse DidntUnderstandMessageIgnoringInput => GetBotResponse();
 
-        public static BotResponse GreetingMessage => GetBotResponse();
+        public static BotResponse CancellingMessage => GetBotResponse();
 
-        public static BotResponse LogOut => GetBotResponse();
+        public static BotResponse NoAuth => GetBotResponse();
 
-        public static BotResponse FeatureNotAvailable => GetBotResponse();
+        public static BotResponse AuthFailed => GetBotResponse();
+
+        public static BotResponse ActionEnded => GetBotResponse();
+
+        public static BotResponse ErrorMessage => GetBotResponse();
 
         private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
         {
@@ -43,8 +47,8 @@ namespace weather.Dialogs.Main.Resources
                 }
 
                 jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-                var dir = Path.GetDirectoryName(typeof(weatherMainResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\Main\\Resources");
+                var dir = Path.GetDirectoryName(typeof(weatherskillSharedResponses).Assembly.Location);
+                var resDir = Path.Combine(dir, "Dialogs\\Shared\\Resources");
 
                 var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
                 foreach (var file in jsonFiles)

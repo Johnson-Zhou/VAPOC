@@ -1,11 +1,11 @@
 ﻿using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 
-namespace weather
+namespace weatherskill
 {
-    public class weatherResponseBuilder : BotResponseBuilder
+    public class weatherskillResponseBuilder : BotResponseBuilder
     {
-        public weatherResponseBuilder()
+        public weatherskillResponseBuilder()
            : base()
         {
             AddFormatter(new TextBotResponseFormatter());

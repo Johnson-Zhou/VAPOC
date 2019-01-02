@@ -177,6 +177,7 @@ namespace VirtualAssistant
 
                         break;
                     }
+
                 case Dispatch.Intent.l_VAPOCen_Weather:
                     {
                         virtualAssistantState.LastIntent = intent.ToString();
@@ -190,6 +191,7 @@ namespace VirtualAssistant
 
                         break;
                     }
+
                 case Dispatch.Intent.q_FAQ:
                     {
                         var qnaService = localeConfig.QnAServices["faq"];
@@ -268,7 +270,7 @@ namespace VirtualAssistant
                     case Events.ActiveLocationUpdate:
                     case Events.ActiveRouteUpdate:
                         {
-                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
+                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_VAPOCen_PointOfInterest.ToString());
 
                             await RouteToSkillAsync(dc, new SkillDialogOptions()
                             {

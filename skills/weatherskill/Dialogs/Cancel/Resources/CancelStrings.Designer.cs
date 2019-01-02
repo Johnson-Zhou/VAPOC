@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace weather.Dialogs.Cancel.Resources
+namespace weatherskill.Dialogs.Cancel.Resources
 {
     using System;
 
@@ -45,7 +45,7 @@ namespace weather.Dialogs.Cancel.Resources
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("weather.Dialogs.Cancel.Resources.CancelStrings", typeof(CancelStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("weatherskill.Dialogs.Cancel.Resources.CancelStrings", typeof(CancelStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
