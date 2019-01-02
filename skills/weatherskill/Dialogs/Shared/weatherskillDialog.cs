@@ -1,17 +1,27 @@
-﻿using weatherskill.Dialogs.Shared.Resources;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using weatherskill.Dialogs.Main.Resources;
+using weatherskill.Dialogs.Shared.Resources;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
+using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using static Microsoft.Recognizers.Text.Culture;
+
+
 
 namespace weatherskill
 {
@@ -21,11 +31,11 @@ namespace weatherskill
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
 
-        // Fields
-        protected ISkillConfiguration _services;
-        protected IStatePropertyAccessor<weatherskillState> _accessor;
-        protected IServiceManager _serviceManager;
-        protected weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
+        // Fields, seems that new version dose not have those protected claims
+      //  protected ISkillConfiguration _services;
+      //  protected IStatePropertyAccessor<weatherskillState> _accessor;
+      //  protected IServiceManager _serviceManager;
+      protected weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
 
         public weatherskillDialog(
             string dialogId,
@@ -34,32 +44,41 @@ namespace weatherskill
             IServiceManager serviceManager)
             : base(dialogId)
         {
-            _services = services;
-            _accessor = accessor;
-            _serviceManager = serviceManager;
+            Services = services;
+            Accessor = accessor;
+            ServiceManager = serviceManager;
+            
+       ///     var oauthSettings = new OAuthPromptSettings()
+        //    {
+      //         ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
+       //         Text = $"Authentication",
+        //        Title = "Signin",
+       //         Timeout = 300000, // User has 5 minutes to login
+        //    };
 
-            var oauthSettings = new OAuthPromptSettings()
-            {
-                ConnectionName = _services.AuthConnectionName ?? throw new Exception("The authentication connection has not been initialized."),
-                Text = $"Authentication",
-                Title = "Signin",
-                Timeout = 300000, // User has 5 minutes to login
-            };
-
-            AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+       //     AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
+      //      AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
         }
+
+    protected ISkillConfiguration Services { get; set; }
+
+    protected IStatePropertyAccessor<weatherskillState> Accessor { get; set; }
+
+    protected IServiceManager ServiceManager { get; set; }
+
+    protected weatherskillResponseBuilder ResponseBuilder { get; set; } = new weatherskillResponseBuilder();
+
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestLuisResult(dc, state.LuisResult);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _accessor.GetAsync(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
             await DigestLuisResult(dc, state.LuisResult);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
@@ -125,7 +144,7 @@ namespace weatherskill
 
                 if (tokenResponse != null)
                 {
-                    var state = await _accessor.GetAsync(sc.Context);
+                    var state = await Accessor.GetAsync(sc.Context);
                 }
 
                 return await sc.NextAsync();
@@ -161,7 +180,7 @@ namespace weatherskill
         {
             try
             {
-                var state = await _accessor.GetAsync(dc.Context);
+                var state = await Accessor.GetAsync(dc.Context);
 
                 // extract entities and store in state here.
             }

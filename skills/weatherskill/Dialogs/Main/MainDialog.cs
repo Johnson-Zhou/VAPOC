@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using weatherskill.Dialogs.Main.Resources;
@@ -29,8 +30,8 @@ namespace weatherskill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
 
-        public MainDialog(ISkillConfiguration services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, bool skillMode)
-            : base(nameof(MainDialog))
+        public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
+            : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
@@ -58,8 +59,12 @@ namespace weatherskill
         {
             var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
 
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
             // If dispatch result is general luis model
-            _services.LuisServices.TryGetValue("weather", out var luisService);
+            localeConfig.LuisServices.TryGetValue("weather", out var luisService);
 
             if (luisService == null)
             {
@@ -162,13 +167,17 @@ namespace weatherskill
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
                 // Update state with luis result and entities
-                var skillLuisResult = await _services.LuisServices["weather"].RecognizeAsync<weather>(dc.Context, cancellationToken);
+                var skillLuisResult = await localeConfig.LuisServices["weather"].RecognizeAsync<weather>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
                 state.LuisResult = skillLuisResult;
 
                 // check luis intent
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -234,7 +243,13 @@ namespace weatherskill
             await dc.CancelAllDialogsAsync();
 
             // Sign out user
-            await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+
+            // await adapter.SignOutUserAsync(dc.Context, _services.AuthConnectionName);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
