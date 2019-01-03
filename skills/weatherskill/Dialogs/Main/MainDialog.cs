@@ -29,6 +29,7 @@ namespace weatherskill
         private IStatePropertyAccessor<weatherskillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
+        private string localfixed = "en";
 
         public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
@@ -60,7 +61,8 @@ namespace weatherskill
             var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            // var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var locale = localfixed;
             var localeConfig = _services.LocaleConfigurations[locale];
 
             // If dispatch result is general luis model
@@ -168,7 +170,8 @@ namespace weatherskill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                //  var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var locale = localfixed; 
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with luis result and entities

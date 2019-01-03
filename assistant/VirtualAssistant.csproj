@@ -103,6 +103,7 @@
     <ProjectReference Include="..\skills\emailskill\EmailSkill.csproj" />
     <ProjectReference Include="..\skills\pointofinterestskill\PointOfInterestSkill.csproj" />
     <ProjectReference Include="..\skills\todoskill\ToDoSkill.csproj" />
+    <ProjectReference Include="..\skills\weatherskill\weatherskill.csproj" />
   </ItemGroup>
 
   <ItemGroup>
