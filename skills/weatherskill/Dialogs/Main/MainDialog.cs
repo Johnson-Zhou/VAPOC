@@ -30,6 +30,7 @@ namespace weatherskill
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
         private string localfixed = "en";
+        private Dictionary<weather.Intent, string> _mapDialog;
 
         public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
@@ -85,6 +86,16 @@ namespace weatherskill
                 // switch on general intents
                 switch (intent)
                 {
+	     case weather.Intent.Weather_GetForecast:
+                        {
+                         //   await dc.BeginDialogAsync(nameof(weatherforecastDialog), skillOptions);
+                           
+                            state.Clear();
+                            state.LastIntent = intent;
+
+                            await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
+                            break;
+                        }
                     case weather.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillSharedResponses.DidntUnderstandMessage));
@@ -258,10 +269,17 @@ namespace weatherskill
             return InterruptionAction.StartedDialog;
         }
 
-        private void RegisterDialogs()
-        {
-            AddDialog(new CancelDialog());
-        }
+            private void RegisterDialogs()
+            {
+                _mapDialog = new Dictionary<weather.Intent, string>();
+
+                AddDialog(new weatherforecastDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+                _mapDialog.Add(weather.Intent.Weather_GetForecast, nameof(weatherforecastDialog));
+
+                
+                AddDialog(new CancelDialog());
+            }
+
 
         private class Events
         {

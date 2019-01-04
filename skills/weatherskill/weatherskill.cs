@@ -22,16 +22,17 @@ namespace weatherskill
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
-        private IServiceManager _serviceManager;
+        private readonly IServiceManager _serviceManager;
         private DialogSet _dialogs;
 
-        public weatherskill(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, ServiceManager serviceManager = null, bool skillMode = false)
+     
+        public weatherskill(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager = null, bool skillMode = false)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _serviceManager = serviceManager ?? new ServiceManager();
+            _serviceManager = serviceManager ?? new ServiceManager(_services);
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
       
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));

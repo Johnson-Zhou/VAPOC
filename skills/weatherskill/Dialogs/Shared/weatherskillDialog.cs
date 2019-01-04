@@ -35,18 +35,19 @@ namespace weatherskill
       //  protected ISkillConfiguration _services;
       //  protected IStatePropertyAccessor<weatherskillState> _accessor;
       //  protected IServiceManager _serviceManager;
-      protected weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
-
+     
         public weatherskillDialog(
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<weatherskillState> accessor,
-            IServiceManager serviceManager)
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
-            ServiceManager = serviceManager;
+            WeatherServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
             
        ///     var oauthSettings = new OAuthPromptSettings()
         //    {
@@ -56,17 +57,25 @@ namespace weatherskill
        //         Timeout = 300000, // User has 5 minutes to login
         //    };
 
-       //     AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
+            AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
       //      AddDialog(new OAuthPrompt(LocalModeAuth, oauthSettings, AuthPromptValidator));
+        }
+
+   protected weatherskillDialog(string dialogId)
+            : base(dialogId)
+        {
         }
 
     protected ISkillConfiguration Services { get; set; }
 
     protected IStatePropertyAccessor<weatherskillState> Accessor { get; set; }
 
-    protected IServiceManager ServiceManager { get; set; }
+   // protected IServiceManager ServiceManager { get; set; }
 
-    protected weatherskillResponseBuilder ResponseBuilder { get; set; } = new weatherskillResponseBuilder();
+    protected IServiceManager WeatherServiceManager { get; set; }
+
+        protected weatherskillResponseBuilder ResponseBuilder { get; set; } = new weatherskillResponseBuilder();
+//    protected weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
 
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
@@ -183,6 +192,53 @@ namespace weatherskill
                 var state = await Accessor.GetAsync(dc.Context);
 
                 // extract entities and store in state here.
+if (luisResult.Entities.Weather_Location!=null && luisResult.Entities.Weather_Location.Length>0)
+                {
+                    state.Locations.Clear();
+                    foreach (var location in luisResult.Entities.Weather_Location)
+                    {
+                        if (!state.Locations.Contains(location))
+                        {
+                            state.Locations.Add(location);
+                        }
+                    }
+                }
+
+                if (luisResult.Entities.datetime!= null && luisResult.Entities.datetime.Length > 0)
+                {
+                    state.ForecastTimes.Clear();
+                    foreach (var datespcs in luisResult.Entities.datetime)
+                    {
+                       switch (datespcs.Type)
+                        {
+                            case "date":
+                                if (datespcs.Expressions.Count > 0)
+                                {
+                                    var forecast = new ForecastTime { StartTime = null, Type = ForecastType.Day };
+                                    if (DateTime.TryParse(datespcs.Expressions[0], out DateTime time))
+                                    {
+                                        forecast.StartTime = time;
+                                    }
+                                    state.ForecastTimes.Add(forecast);
+                                }
+                                break;
+
+                            case "datetime":
+                                if (datespcs.Expressions.Count > 0)
+                                {
+                                    var forecast = new ForecastTime { StartTime = null, Type = ForecastType.Hour };
+                                    if (DateTime.TryParse(datespcs.Expressions[0], out DateTime time))
+                                    {
+                                        forecast.StartTime = time;
+                                    }
+                                    state.ForecastTimes.Add(forecast);
+                                }
+                                break;
+                        }                        
+                    }
+                }
+
+
             }
             catch
             {
