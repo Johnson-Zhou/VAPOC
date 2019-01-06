@@ -60,11 +60,31 @@ namespace VirtualAssistant
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // if the OnStart call doesn't have the locale info in the activity, we don't take it as a startConversation call
-            if (!string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
-            {
-                await StartConversation(dc);
+       //     if (!string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+        //    {
+        //        await StartConversation(dc);
 
-                _conversationStarted = true;
+//                _conversationStarted = true;
+   //         }
+
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            var view = new MainResponses();
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+
+            var allowAnonymousAccess = false;
+            if (_services.SkillConfigurations.TryGetValue("calendarSkill", out ISkillConfiguration skill))
+            {
+                if (skill.Properties.TryGetValue("allowAnonymousAccess", out object allowObject))
+                {   
+                    bool.TryParse(allowObject as string, out allowAnonymousAccess);
+                }
+            }
+
+            if (string.IsNullOrEmpty(onboardingState.Name) && !allowAnonymousAccess)
+            {
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await dc.BeginDialogAsync(nameof(OnboardingDialog));
             }
         }
 

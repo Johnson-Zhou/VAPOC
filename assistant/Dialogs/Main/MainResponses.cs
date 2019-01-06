@@ -67,11 +67,26 @@ namespace VirtualAssistant
 
         public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
+           /* var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
             return MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
+
+    */
+            var response = turnContext.Activity.CreateReply();
+            var introCard = MainStrings.ResourceManager.GetObject("Intro").ToString();
+
+            response.Attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = JsonConvert.DeserializeObject(introCard),
+                },
+            };
+
+            return response;
         }
 
         public static IMessageActivity BuildHelpCard(ITurnContext turnContext, dynamic data)
