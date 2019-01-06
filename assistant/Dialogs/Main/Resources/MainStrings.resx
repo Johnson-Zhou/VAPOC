@@ -166,4 +166,10 @@
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>Find a coffee shop nearby</value>
   </data>
+  <data name="QnA" xml:space="preserve">
+    <value>What is Virtual Assistant?</value>
+  </data>
+  <data name="WEATHER" xml:space="preserve">
+    <value>How is the weather in Shanghai today?</value>
+  </data>
 </root>

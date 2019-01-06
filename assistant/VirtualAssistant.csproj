@@ -98,6 +98,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\intro.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
     <ProjectReference Include="..\skills\calendarskill\CalendarSkill.csproj" />
     <ProjectReference Include="..\skills\emailskill\EmailSkill.csproj" />

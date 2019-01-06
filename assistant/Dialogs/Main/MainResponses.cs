@@ -103,6 +103,8 @@ namespace VirtualAssistant
             {
                 Actions = new List<CardAction>()
                 {
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.WEATHER),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.QnA),
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
                     new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
