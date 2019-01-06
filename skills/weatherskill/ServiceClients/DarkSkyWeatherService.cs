@@ -8,7 +8,7 @@ using static DarkSky.Services.DarkSkyService;
 
 namespace weatherskill.ServiceClients
 {
-    public class DarkSkyWeatherService : IWeatherForecast
+    public class DarkSkyWeatherService : IWeatherForecast,IWeatherWearSuggestion
     {
         private DarkSkyService _darkSky;
 
@@ -102,6 +102,58 @@ namespace weatherskill.ServiceClients
             }
         }
 
-        
+        public async Task<string> GenerateWearSuggestion(string location, DateTime? startdate, string[] clothes)
+        {
+            try
+            {
+                var geo = await ServiceManager.GeoService.QueryGeoInfoByLocation(location);
+                if (geo != null)
+                {
+                    var param = new OptionalParameters { ForecastDateTime = DateTime.Now, MeasurementUnits = "uk2" };
+                    if (startdate != null && startdate.HasValue)
+                    {
+                        param.ForecastDateTime = startdate.Value;
+                    }
+
+                    var response = await _darkSky.GetForecast(geo.Latitude, geo.Longitude, param);
+                    if (response.IsSuccessStatus && response.Response.Currently.Temperature.HasValue)
+                    {
+                        string message = $"In {geo.Location}, the average temperature will be around {response.Response.Currently.Temperature.Value}°C at {startdate.Value.ToString("d")}.";
+
+                        foreach (var name in clothes)
+                        {
+                            var range = WeatherclothesList.GetTempRange(name);
+                            if (range != null)
+                            {
+                                if (response.Response.Currently.Temperature.Value < range.LowTemperature)
+                                {
+                                    message += $"And it will be too cold to wear {name}.";
+                                }
+                                else if (response.Response.Currently.Temperature.Value > range.HighTemperature)
+                                {
+                                    message += $"And it is not a good idea to wear {name} in a hot day.";
+                                }
+                                else
+                                {
+                                    message += $"And it is good to wear {name}.";
+                                }
+                            }
+                        }
+
+                        return message;
+                    }
+                    else
+                    {
+                        return response.ResponseReasonPhrase;
+                    }
+                }
+                else throw new Exception($"Failed to find a location as {location}.");
+
+            }
+            catch (Exception err)
+            {
+                return err.Message;
+            }
+        }        
     }
 }

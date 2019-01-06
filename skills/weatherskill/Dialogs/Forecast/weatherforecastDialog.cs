@@ -17,9 +17,10 @@ namespace weatherskill
         public weatherforecastDialog(
             ISkillConfiguration services,
             IStatePropertyAccessor<weatherskillState> weatherStateAccessor,
+            IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(weatherforecastDialog), services, weatherStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(weatherforecastDialog), services, weatherStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
 	TelemetryClient = telemetryClient;
 

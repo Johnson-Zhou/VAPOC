@@ -96,6 +96,27 @@ namespace weatherskill
                             await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
                             break;
                         }
+
+	    case weather.Intent.Weather_Wear:
+                        {
+                            state.LastIntent = intent;
+                            await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
+                            break;
+                        }
+
+                    case weather.Intent.Weather_ContextContinue:
+                        {
+                            if (state.LastIntent.HasValue)
+                            {
+                                await dc.BeginDialogAsync(_mapDialog[state.LastIntent.Value], skillOptions);
+                            }
+                            else
+                            {
+                                await dc.BeginDialogAsync(_mapDialog[weather.Intent.Weather_GetForecast], skillOptions);
+                            }
+                            break;
+                        }
+
                     case weather.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillSharedResponses.DidntUnderstandMessage));
@@ -200,6 +221,7 @@ namespace weatherskill
                 else
                 {
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+	    state.GeneralLuisResult = luisResult;
                     var topIntent = luisResult.TopIntent().intent;
 
                     // check intent
@@ -273,10 +295,13 @@ namespace weatherskill
             {
                 _mapDialog = new Dictionary<weather.Intent, string>();
 
-                AddDialog(new weatherforecastDialog(_services, _stateAccessor, _serviceManager, TelemetryClient));
+                AddDialog(new weatherforecastDialog(_services, _stateAccessor, _dialogStateAccessor,_serviceManager, TelemetryClient));
                 _mapDialog.Add(weather.Intent.Weather_GetForecast, nameof(weatherforecastDialog));
 
-                
+               AddDialog(new weatherwearDialog(_services, _stateAccessor, _dialogStateAccessor, _serviceManager,TelemetryClient));
+            _mapDialog.Add(weather.Intent.Weather_Wear, nameof(weatherwearDialog));
+
+  
                 AddDialog(new CancelDialog());
             }
 

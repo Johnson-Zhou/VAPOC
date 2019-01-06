@@ -16,14 +16,16 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             None, 
-            Weather_GetCondition, 
-            Weather_GetForecast
+            Weather_ContextContinue, 
+            Weather_GetForecast,
+            Weather_Wear
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
+            public string[] Wear_Clothes;
             public string[] Weather_Location;
 
             // Built-in entities
@@ -32,6 +34,7 @@ namespace Luis
             // Instance
             public class _Instance
             {
+	public InstanceData[] Wear_Clothes;
                 public InstanceData[] Weather_Location;
                 public InstanceData[] datetime;
             }

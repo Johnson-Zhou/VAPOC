@@ -40,6 +40,7 @@ namespace weatherskill
             string dialogId,
             ISkillConfiguration services,
             IStatePropertyAccessor<weatherskillState> accessor,
+            IStatePropertyAccessor<DialogState> dialogStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
@@ -47,6 +48,7 @@ namespace weatherskill
             Services = services;
             Accessor = accessor;
             WeatherServiceManager = serviceManager;
+            DialogStateAccessor = dialogStateAccessor;
             TelemetryClient = telemetryClient;
             
        ///     var oauthSettings = new OAuthPromptSettings()
@@ -69,6 +71,8 @@ namespace weatherskill
     protected ISkillConfiguration Services { get; set; }
 
     protected IStatePropertyAccessor<weatherskillState> Accessor { get; set; }
+
+    protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
    // protected IServiceManager ServiceManager { get; set; }
 
@@ -238,6 +242,17 @@ if (luisResult.Entities.Weather_Location!=null && luisResult.Entities.Weather_Lo
                     }
                 }
 
+        if (luisResult.Entities.Wear_Clothes != null && luisResult.Entities.Wear_Clothes.Length > 0)
+                {
+                    state.Clothes.Clear();
+                    foreach (var cloth in luisResult.Entities.Wear_Clothes)
+                    {
+                        if (!state.Clothes.Contains(cloth))
+                        {
+                            state.Clothes.Add(cloth);
+                        }
+                    }
+                }
 
             }
             catch
