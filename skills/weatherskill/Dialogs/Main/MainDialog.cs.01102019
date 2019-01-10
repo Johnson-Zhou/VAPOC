@@ -29,7 +29,7 @@ namespace weatherskill
         private IStatePropertyAccessor<weatherskillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private weatherskillResponseBuilder _responseBuilder = new weatherskillResponseBuilder();
-//        private string localfixed = "en";
+        private string localfixed = "en";
         private Dictionary<weather.Intent, string> _mapDialog;
 
         public MainDialog(SkillConfiguration services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, IServiceManager serviceManager, bool skillMode)
@@ -59,14 +59,11 @@ namespace weatherskill
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-
-            var routeResult = EndOfTurn;
-
             var state = await _stateAccessor.GetAsync(dc.Context, () => new weatherskillState());
 
             // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-      //       var locale = localfixed;
+            // var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var locale = localfixed;
             var localeConfig = _services.LocaleConfigurations[locale];
 
             // If dispatch result is general luis model
@@ -96,14 +93,14 @@ namespace weatherskill
                             state.Clear();
                             state.LastIntent = intent;
 
-                            routeResult = await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
+                            await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
                             break;
                         }
 
 	    case weather.Intent.Weather_Wear:
                         {
                             state.LastIntent = intent;
-                            routeResult = await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
+                            await dc.BeginDialogAsync(_mapDialog[intent.Value], skillOptions);
                             break;
                         }
 
@@ -111,11 +108,11 @@ namespace weatherskill
                         {
                             if (state.LastIntent.HasValue)
                             {
-                               routeResult =  await dc.BeginDialogAsync(_mapDialog[state.LastIntent.Value], skillOptions);
+                                await dc.BeginDialogAsync(_mapDialog[state.LastIntent.Value], skillOptions);
                             }
                             else
                             {
-                             routeResult =    await dc.BeginDialogAsync(_mapDialog[weather.Intent.Weather_GetForecast], skillOptions);
+                                await dc.BeginDialogAsync(_mapDialog[weather.Intent.Weather_GetForecast], skillOptions);
                             }
                             break;
                         }
@@ -125,7 +122,7 @@ namespace weatherskill
                             await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(weatherskillSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                await CompleteAsync(dc);
                             }
 
                             break;
@@ -137,17 +134,13 @@ namespace weatherskill
 
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                await CompleteAsync(dc);
                             }
 
                             break;
                         }
                 }
             }
-	if (routeResult.Status != DialogTurnStatus.Waiting)
-            	{
-                	await CompleteAsync(dc);
-	}
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -210,7 +203,7 @@ namespace weatherskill
             {
                 // get current activity locale
                   var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-         //       var locale = localfixed; 
+      //          var locale = localfixed; 
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with luis result and entities
