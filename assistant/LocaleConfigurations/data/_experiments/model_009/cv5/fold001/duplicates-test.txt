@@ -1,0 +1,5 @@
+Utterance	Intents
+logout	l_VAPOCen_Email, l_VAPOCen_General
+hi	l_VAPOCen_Email, l_VAPOCen_General
+i want to talk to a human	l_VAPOCen_Email, l_VAPOCen_General
+don't do that	l_VAPOCen_Email, l_VAPOCen_General

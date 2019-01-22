@@ -6,8 +6,8 @@
             "type": "luis",
             "name": "VAPOCen_General",
             "appId": "54354708-3417-45f5-9ddd-29c4d767a851",
-            "authoringKey": "zMVn+r53g8Pythl4mSswQg==!76nlNm8SHnNiQvcVh+WXB9hO4s5MyNpNh+RGmnaaVz95i95R7NWtno3ArGsJIVeF",
-            "subscriptionKey": "hYFz0lXWva1F6kID884yFg==!Xx3Rs1N6lAcbcwQpipNLxyGFj4RSxq4dzQchZHgVNt/m37haz4mxzQJlI+3jlglQ",
+            "authoringKey": "5qVON9twDzJOW8cYUMoBZg==!tsWTTnim/XK1UzVw0g20l+Mdr20PDFIpF4elPCZzuEw/w1L4GSlBzMtk4VJWRHXv",
+            "subscriptionKey": "96IOfSA+ru2aoxPkjHav3A==!4Vpx7RVZo1yrr1p/oX7KKhvyoAre+hxLRdakuCaG3ctWaTB/3ey644/11RpdhGZf",
             "version": "0.1",
             "region": "westus",
             "id": "general"
@@ -16,8 +16,8 @@
             "type": "luis",
             "name": "VAPOCen_Calendar",
             "appId": "e557a60a-6bcb-40f5-9ae5-3b2050ef5a63",
-            "authoringKey": "Gzcn06UVyCY+Sl+JyNwYfg==!28oXB6w6xOWHZOMDxskSH3KztF+wW01aPtgIdW3LCpA3wfM2ID2jMJrA0xIpnsZd",
-            "subscriptionKey": "+h1HhzfjJUzZbIF6R3F6XA==!rOglca8vOvyubqp8vtFrXo7lYH2mBzvn+NyNFngHSYHFcHrpj2XYjm2IMXmcs589",
+            "authoringKey": "+xeDy3ppxO4L/lQ5YMFxWA==!cIRLZjDKB6AsU/RJOuMHV2mlkeKDEdHHLLMrSAsCzMJBZAPwt/VBG4rrQxDLTQkW",
+            "subscriptionKey": "ibAHzFgdURXUT6d2cBqcIQ==!hParAHE5KkLWJznMjA6GEchge/0s7Lh01tBQzOORFifweL4nwRQtMKTRnRQgkyna",
             "version": "0.1",
             "region": "westus",
             "id": "calendar"
@@ -26,8 +26,8 @@
             "type": "luis",
             "name": "VAPOCen_Email",
             "appId": "6ceee347-aab8-41d9-8c59-3f386997835f",
-            "authoringKey": "ZTz/5w+VAPAzEsoeH6e19A==!ojAEZgP84Jl4vyAT+B2GPVNc25ricEVpJeDGRIJYAUOFFSSqdvCIvGplpyptU5UX",
-            "subscriptionKey": "5nsncT9dlKBedeD4b+tIaw==!PLxVJTuAhtNYTR8rUBdPWs5P3PgoeJu0PMJwHBFnpad5vCjENEsAvX2auQoOxamX",
+            "authoringKey": "8ftUARr0FivrHBac7ULR9Q==!0LVUTmgL5ZRbfeKvJlAFydnLeZ6dyDinTeF3QuA9K4r9jv4/OJQ5obFmNn+5XIZK",
+            "subscriptionKey": "Yaa6eTlGLyA8XBTXRHyxQA==!hspvsSPaXLvEiOMsJLlNUrjCSK7AxXssdyWwqxB4vaapZ6EQYhrhYP+D4gKpC63C",
             "version": "0.1",
             "region": "westus",
             "id": "email"
@@ -36,8 +36,8 @@
             "type": "luis",
             "name": "VAPOCen_ToDo",
             "appId": "d9df192d-1334-4e8e-a76f-a7a4d0078ae8",
-            "authoringKey": "SylriOR6wiUDfIxy6J7Rgw==!/9y0m3krUWEn51w2TP0TD6OjfjDca+HsOQ9pvqtGl9Z+euFcYhQv5A4TcIUrbSAx",
-            "subscriptionKey": "su/ZGrWoERWQAwsHWhL5Rw==!N7FDwrO+YZ3EZA2fQ1W4daSOfWLF5lxOd4RcrIGmXPrrAITbMksbZzD/oI+qbGI0",
+            "authoringKey": "4Hbp7NbrIYJyAAxUB2Tp9Q==!FtnnsfmXoGUDULokNX6iG1d+zGnUBjoU1BrOiKt2GJAT5BRwwyH9bJCwpDgBlGaV",
+            "subscriptionKey": "G9KwM/1pjAWOH/Eljdkr9Q==!8irSjZ9Hw6JD6mek8djfrEZz/clh5PtduPHY+JBBfITrdQ4lK5W7nfN2N2gixkWt",
             "version": "0.1",
             "region": "westus",
             "id": "todo"
@@ -46,8 +46,8 @@
             "type": "luis",
             "name": "VAPOCen_PointOfInterest",
             "appId": "24524b14-d11c-466d-8f97-3cd533182737",
-            "authoringKey": "6sMNwVQoCiIGa4iFs3cKzg==!VocKUGUcDTPm8Y3OMzuKXZNfqeotEhZh/2JLk30XfltuPxWtBGjmTu57knjOYLgf",
-            "subscriptionKey": "kEHe0hLXQUKin94ZTyoA+g==!hXHf6w+UrPjYTgKgN8rGaecPmLSIUQhpyKNiiDqOgnYQecfw7nw8MIarsWlewreG",
+            "authoringKey": "F9sO4V/Q2T8hqanKfSrHqQ==!Vz3tVeoxSo5pDu0rPuxfIDkHWdrXmSCoNgUd1f9jBRVB0hG25bXM/Nj3NRJ7h0XN",
+            "subscriptionKey": "iiuZye/F3/i5hUCaXLRWLg==!Far16jX7I+VsGyZgfuRG152aAJyYXiY3ly0gKI1bB/nwKBb7vdpoj+T1bVzyMAZR",
             "version": "0.1",
             "region": "westus",
             "id": "pointofinterest"
@@ -57,8 +57,8 @@
             "name": "FAQ",
             "id": "faq",
             "kbId": "792d85dd-a6c7-496a-b444-43b71bbf1f40",
-            "subscriptionKey": "zXWIdPaCT7IwY79AOPtW3g==!KViVx40thSY6cUVIPZSNjLc6KDfdQxGj8eDaQG6H1C1qqj0upZwIjiWVQJzYUmT7",
-            "endpointKey": "gog2xcZBYpUhQhDRHwXgrA==!zluXJ/o/3m4KfErNPg9W7uBu2ppEORqF3IhFZEmHMO7f7KJOrFQiUglGLtuCxA36",
+            "subscriptionKey": "w9MThRTMCoJMtGaL2mls+g==!rPZmy+qD9thXd189aoindcZuXF8Iuz/EmalxIKaBiOwLJ/+puei4S/Mz+4q1cgYI",
+            "endpointKey": "e/oq0fdvDyLodosIF2THLw==!qeLK6pD2a2ujrEyDQLHwVrdvyYWaJWW8fVNYY/CeGiJInapgafVkJ8x+wuNVrurf",
             "hostname": "https://vapocen-qnahost.azurewebsites.net/qnamaker"
         },
         {
@@ -70,12 +70,12 @@
                 "todo",
                 "pointofinterest",
                 "faq",
-	"weather"
+                "weather"
             ],
             "name": "VAPOCen_Dispatch",
             "appId": "5cd50c33-62f1-4aa4-a353-0cd21b3399a0",
-            "authoringKey": "DYeePecyGc6Lr4Y+pcOpsA==!/8a1CS5twouvHYK8B8+FGf/TCYf0p5h16BGZ+BE7CFb4tGove+3JkU3d3d8pe7hK",
-            "subscriptionKey": "0+fSqqpVUL/vaznfDP/xRg==!nhuZ+C0vQnmJ3D3+t2kPPzFbxlDaWVwe4FyecTLmiysm02GtpuAxY/OsxOfrhnJp",
+            "authoringKey": "JqhciTefwMb/NoB+oP4i/A==!S+AkdrBjKRIhEdUmEubnhSBA1JpsjmOc/Stfb/Xq/Y+AilzNF8T3Oui6Y8Z8pbXE",
+            "subscriptionKey": "3tGEa3gI0G5LQ0BgK1RRcg==!7ed0kLGcAO2kKkrP/KZtPvfRsq5dlgdg7mACyYOKaqCG9WtM3aqfCuoOL6xxXeIQ",
             "version": "Dispatch",
             "region": "westus",
             "id": "dispatch"
@@ -85,12 +85,12 @@
             "name": "VAPOCen_Weather",
             "appId": "e18ca9cc-64b5-4b1e-8e52-21326acda05d",
             "version": "0.1",
-            "authoringKey": "nkJWplodd1P89PX3Tf1EFw==!xpVG3pmntWaBpvzCaNEOkGXtJNwGKOStu1c/1kAysM0gJ4vFwDAsBVSHZuzv42+v",
-            "subscriptionKey": "JfAptpwM0+tjhOQFqHDJxQ==!2D14JrEORH6UfymPMzBKxLZBQcbC4E3My3VT6rqOaht6Y36azw4ZWSJ8ocPQtE/X",
+            "authoringKey": "dcM8FE+KcT0NZEGohNqtmw==!qgoCgxsXmLhD6KuEIzfSxADUstGGenj0ynj6pVJj5LAlDhENeIfVNJqgmszRDu5j",
+            "subscriptionKey": "Xf275Tf/pqMRrcKqFwS/KQ==!tF3AzZNNc+UjZQK6SWlXFhT0JvodBTJPy31SH7xS4cprfEOU2vm0csx529VAPTT/",
             "region": "westus",
             "id": "weather"
         }
     ],
-    "padlock": "nQNBqsC33n3zLiYUNQDbIw==!gYOT4MVem5Uxz3uJ1F8SMWaIs3zeUZstrsOsjpQe234/QUaSWaEIgEE4+Rhx0clu",
+    "padlock": "Br6rGbo/JV1CYCNLu5daXA==!X3FVzEj35eL+y06sXT5vaKHxGucK2Ka8kkdyldJ0ya8E9OVnsHxIlsG33BqRpL9v",
     "version": "2.0"
 }

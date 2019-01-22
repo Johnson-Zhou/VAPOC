@@ -1,11 +1,15 @@
 " i need to know the temperature at bangor , sme "
 and beijing?
 and tomorrow?
+can i wear skirts
+can i wear sweater
 can i wear t-shirt today
 can i wear t-shirt tomorrow?
+can i wear vest
 forecast in celcius
 get the forcast for me
 how about london in tomorrow
+how about newyork
 how about shenzhen in tomorrow?
 how about shenzhen?
 how about skirt?

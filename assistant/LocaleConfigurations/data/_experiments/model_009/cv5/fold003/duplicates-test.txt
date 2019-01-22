@@ -1,0 +1,3 @@
+Utterance	Intents
+go back	l_VAPOCen_Calendar, l_VAPOCen_Email
+stop	l_VAPOCen_Email, l_VAPOCen_General
